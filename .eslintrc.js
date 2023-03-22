@@ -48,6 +48,7 @@ module.exports = {
       'before': false,
       'after': true 
     }],
-    'no-multiple-empty-lines': ['error', { 'max': 1 }]
+    'no-multiple-empty-lines': ['error', { 'max': 1 }],
+    'max-len': ['error', { 'code': 120 }]
   } 
 };
