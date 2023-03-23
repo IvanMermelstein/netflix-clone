@@ -5,7 +5,6 @@ import {
   useCallback, useState
 } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import LoginLogo from '../components/LoginLogo';
@@ -17,7 +16,6 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [variant, setVariant] = useState(VARIANT_LOGIN);
-  const router = useRouter();
 
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) => currentVariant === VARIANT_LOGIN ? 'register' : VARIANT_LOGIN);
@@ -28,15 +26,12 @@ const Auth = () => {
       await signIn('credentials', {
         email,
         password,
-        redirect: false,
-        callbackUrl: '/'
+        callbackUrl: '/profiles'
       });
-
-      router.push('/');
     } catch (error) {
       console.log(error);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {

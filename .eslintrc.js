@@ -39,7 +39,10 @@ module.exports = {
       'error',
       'always'
     ],
-    'object-curly-newline': ['error', { 'minProperties': 2 }],
+    'object-curly-newline': ['error', {
+      'minProperties': 2,
+      'multiline': true 
+    }],
     'object-property-newline': [
       'error',
       { 'allowAllPropertiesOnSameLine': false }
