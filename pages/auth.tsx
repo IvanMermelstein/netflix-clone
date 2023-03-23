@@ -6,6 +6,9 @@ import {
 } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { FcGoogle } from 'react-icons/fc';
+import { FaGithub } from 'react-icons/fa';
+import LoginLogo from '../components/LoginLogo';
 
 const VARIANT_LOGIN = 'login';
 
@@ -96,7 +99,11 @@ const Auth = () => {
             >
               {variant === VARIANT_LOGIN ? 'Login' : 'Sign up'}
             </button>
-            <p className='text-neutral-500 mt-12'>
+            <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
+              <LoginLogo Logo={FcGoogle} method={'google'} />
+              <LoginLogo Logo={FaGithub} method={'github'} />
+            </div>
+            <p className='text-neutral-500 mt-8'>
               {variant === VARIANT_LOGIN ? 'First time using Netflix?' : 'Already have an account?'}
               <span
                 className='text-white ml-1.5 hover:underline cursor-pointer'
