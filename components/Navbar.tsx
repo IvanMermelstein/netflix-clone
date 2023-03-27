@@ -40,7 +40,7 @@ const Navbar = () => {
 
   const toggleAccountMenu = useCallback(() => {
     setShowAccountMenu((current) => !current);
-  }, []);
+  }, [setShowAccountMenu]);
 
   return (
     <nav className="w-full fixed z-40">

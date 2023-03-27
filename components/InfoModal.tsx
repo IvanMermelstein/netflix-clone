@@ -38,7 +38,7 @@ const InfoModal: FC<InfoModalProps> = ({
       className='z-50 transition duration-300 bg-black bg-opacity-80 flex justify-center items-center overflow-x-hidden 
         overflow-y-auto fixed inset-0'
     >
-      <div className='relative w-auto mx-auto max-w-3xl rounded-md overflow-hidden'>
+      <div className='relative w-auto mx-auto max-w-[90%] md:max-w-3xl rounded-md overflow-hidden'>
         <div className={`${isVisible ? 'scale-100' : 'scale-0'} transform duration-300 relative flex-auto
           bg-zinc-900 drop-shadow-md`}>
           <div className='relative h-96'>
@@ -68,16 +68,16 @@ const InfoModal: FC<InfoModalProps> = ({
             </div>
           </div>
           <div className='px-12 py-8'>
-            <p className='text-green-400 font-semibold text-lg'>
+            <p className='text-green-400 font-semibold text-sm lg:text-lg'>
               New
             </p>
-            <p className='text-white text-lg'>
+            <p className='text-white text-sm lg:text-lg'>
               {data?.duration}
             </p>
-            <p className='text-white text-lg'>
+            <p className='text-white text-sm lg:text-lg'>
               {data?.genre}
             </p>
-            <p className='text-white text-lg'>
+            <p className='text-white text-sm lg:text-lg'>
               {data?.description}
             </p>
           </div>

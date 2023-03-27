@@ -15,14 +15,17 @@ const MovieCard: FC<MovieCardProps> = ({ data }) => {
   const { openModal } = useInfoModal();
 
   return (
-    <div className='group bg-zinc-900 col-span relative h-[12vw]'>
+    <div
+      className='group bg-zinc-900 col-span relative h-[24vw] lg:h-[12vw]'
+      onClick={() => openModal(data?.id)}
+    >
       <Image
         src={data?.thumbnail}
         alt={`${data?.title} thumbnail`}
         width={300}
         height={200}
         className='cursor-pointer object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 
-          sm:group-hover:opacity-0 delay-300 w-full h-[12vw]'
+          sm:group-hover:opacity-0 delay-300 w-full h-[24vw] lg:h-[12vw]'
       />
       <div className='opacity-0 absolute top-0 transition duration-200 z-10 invisible sm:visible delay-300 
         w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:translate-x-[2vw] 
@@ -66,7 +69,7 @@ const MovieCard: FC<MovieCardProps> = ({ data }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
