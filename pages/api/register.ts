@@ -23,13 +23,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const hashedPassword = await bcrytp.hash(password, 10);
 
-    const user = await prismadb.user.create({ data: {
-      email,
-      name, 
-      hashedPassword,
-      image: '',
-      emailVerified: new Date()
-    } });
+    const user = await prismadb.user.create({
+      data: {
+        email,
+        name, 
+        hashedPassword,
+        image: '',
+        emailVerified: new Date()
+      } 
+    });
 
     return res.status(200).json(user);
   } catch (error) {
