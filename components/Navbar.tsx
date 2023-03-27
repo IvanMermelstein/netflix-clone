@@ -6,9 +6,10 @@ import {
 } from 'react-icons/bs';
 import MobileMenu from './MobileMenu';
 import {
-  useState, useCallback, useEffect
+  useState, useCallback, useEffect, useRef
 } from 'react';
 import AccountMenu from './AccountMenu';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 const navLabels = ['Home', 'Series', 'Films', 'New & Popular', 'My List', 'Browse by languages'];
 const TOP_OFFSET = 66;
@@ -17,6 +18,8 @@ const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +36,9 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useOutsideClick(accountMenuRef, () => setShowAccountMenu(false));
+  useOutsideClick(mobileMenuRef, () => setShowMobileMenu(false));
 
   const toggleMobileMenu = useCallback(() => {
     setShowMobileMenu((current) => !current);
@@ -57,6 +63,7 @@ const Navbar = () => {
         <div
           onClick={toggleMobileMenu}
           className='lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative'
+          ref={mobileMenuRef}
         >
           <p className='text-white text-sm'>Browse</p>
           <BsChevronDown className={`text-white transition ${showMobileMenu ? 'rotate-180' : 'rotate-0'}`} />
@@ -72,6 +79,7 @@ const Navbar = () => {
           <div
             className='flex flex-row items-center gap-2 cursor-pointer relative'
             onClick={toggleAccountMenu}
+            ref={accountMenuRef}
           >
             <div className='w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden'>
               <Image src="/images/default-blue.png" alt="Profile avatar" width={180} height={50} />
