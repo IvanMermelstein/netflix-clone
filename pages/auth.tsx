@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import LoginLogo from '../components/LoginLogo';
+import Spinner from '@/components/Spinner';
 
 const VARIANT_LOGIN = 'login';
 
@@ -16,20 +17,34 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [variant, setVariant] = useState(VARIANT_LOGIN);
+  const [loginError, setLoginError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const toggleVariant = useCallback(() => {
+    setEmail('');
+    setPassword('');
+    setLoginError('');
     setVariant((currentVariant) => currentVariant === VARIANT_LOGIN ? 'register' : VARIANT_LOGIN);
   }, []);
 
   const login = useCallback(async () => {
+    if (!email || !password) {
+      setLoginError('Email and password required');
+      return;
+    }
+    setLoading(true);
     try {
-      await signIn('credentials', {
+      const resp = await signIn('credentials', {
         email,
         password,
-        callbackUrl: '/profiles'
+        callbackUrl: '/profiles',
+        redirect: false
       });
+      if (resp?.error) setLoginError(resp.error);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }, [email, password]);
 
@@ -75,28 +90,45 @@ const Auth = () => {
               }
               <Input
                 label='Email'
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setLoginError('');
+                }}
                 id='email'
                 type='email'
                 value={email}
               />
               <Input
                 label='Password'
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setLoginError('');
+                }}
                 id='password'
                 type='password'
                 value={password}
               />
+              {loginError &&
+                <div className='text-red-600 text-sm'>
+                  {loginError}
+                </div>
+              }
             </div>
             <button
-              className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'
+              className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition
+              hover:disabled:bg-red-600'
               onClick={variant === VARIANT_LOGIN ? login : register}
+              disabled={loading || !!loginError}
             >
-              {variant === VARIANT_LOGIN ? 'Login' : 'Sign up'}
+              {loading ? <Spinner /> : (variant === VARIANT_LOGIN ? 'Login' : 'Sign up')}
             </button>
             <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
-              <LoginLogo Logo={FcGoogle} method={'google'} />
-              <LoginLogo Logo={FaGithub} method={'github'} />
+              <div onClick={() => setLoading(true)}>
+                <LoginLogo Logo={FcGoogle} method={'google'} />
+              </div>
+              <div onClick={() => setLoading(true)}>
+                <LoginLogo Logo={FaGithub} method={'github'} />
+              </div>
             </div>
             <p className='text-neutral-500 mt-8'>
               {variant === VARIANT_LOGIN ? 'First time using Netflix?' : 'Already have an account?'}
@@ -110,7 +142,7 @@ const Auth = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
