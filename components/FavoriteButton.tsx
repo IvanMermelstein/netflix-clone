@@ -19,7 +19,7 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({ movieId }) => {
   } = useCurrentUser();
 
   const isFavorite = useMemo(() => {
-    const list = currentUser.favoriteIds || [];
+    const list = currentUser?.favoriteIds || [];
 
     return list.includes(movieId);
   }, [currentUser, movieId]);
